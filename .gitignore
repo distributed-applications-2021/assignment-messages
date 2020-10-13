@@ -20,5 +20,5 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-opdracht2021_messages-*.tar
+assignment2021_messages-*.tar
 

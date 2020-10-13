@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package opdracht2021.messages;
+package assignment2021.messages;
 
 message TodoTask {
     enum TodoTaskOperation {

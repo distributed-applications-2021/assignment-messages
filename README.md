@@ -1,5 +1,4 @@
-# Opdracht2021Messages
-
+# Assignment2021Messages
 
 ## Installation
 
@@ -8,10 +7,13 @@
 ```elixir
 def deps do
   [
-    TODO
+    {:assignment_messages,
+       git: "https://github.com/distributed-applications-2021/assignment-messages", branch: "main"}
   ]
 end
 ```
+
+If you want to generate the modules yourself (based on the protobuf schema)
 
 ```bash
 MIX_ENV=prod mix protox.generate --multiple-files --output-path=lib/generated protobuf_schemas.proto

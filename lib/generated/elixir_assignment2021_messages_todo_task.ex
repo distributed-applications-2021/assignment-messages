@@ -1,5 +1,5 @@
 # credo:disable-for-this-file
-defmodule(Opdracht2021.Messages.TodoTask) do
+defmodule(Assignment2021.Messages.TodoTask) do
   @moduledoc(false)
   (
     defstruct(task_operation: :ADD, task_uuid: "", currency_pair: "", from_unix_ts: 0, until_unix_ts: 0, __uf__: [])
@@ -23,7 +23,7 @@ defmodule(Opdracht2021.Messages.TodoTask) do
         if(field_value == :ADD) do
           acc
         else
-          [acc, "\b", field_value |> Opdracht2021.Messages.TodoTask.TodoTaskOperation.encode() |> Protox.Encode.encode_enum()]
+          [acc, "\b", field_value |> Assignment2021.Messages.TodoTask.TodoTaskOperation.encode() |> Protox.Encode.encode_enum()]
         end
       end, defp(encode_task_uuid(acc, msg)) do
         field_value = msg.task_uuid()
@@ -81,7 +81,7 @@ defmodule(Opdracht2021.Messages.TodoTask) do
       (
         @spec(decode!(binary) :: struct | no_return)
         def(decode!(bytes)) do
-          parse_key_value(bytes, struct(Opdracht2021.Messages.TodoTask))
+          parse_key_value(bytes, struct(Assignment2021.Messages.TodoTask))
         end
       )
       (
@@ -94,7 +94,7 @@ defmodule(Opdracht2021.Messages.TodoTask) do
             {0, _, _} ->
               raise(%Protox.IllegalTagError{})
             {1, _, bytes} ->
-              {value, rest} = Protox.Decode.parse_enum(bytes, Opdracht2021.Messages.TodoTask.TodoTaskOperation)
+              {value, rest} = Protox.Decode.parse_enum(bytes, Assignment2021.Messages.TodoTask.TodoTaskOperation)
               field = {:task_operation, value}
               {field, rest}
             {2, _, bytes} ->
@@ -130,11 +130,11 @@ defmodule(Opdracht2021.Messages.TodoTask) do
     )
     @spec(defs() :: %{required(non_neg_integer) => {atom, Protox.Types.kind(), Protox.Types.type()}})
     def(defs()) do
-      %{1 => {:task_operation, {:default, :ADD}, {:enum, Opdracht2021.Messages.TodoTask.TodoTaskOperation}}, 2 => {:task_uuid, {:default, ""}, :string}, 3 => {:currency_pair, {:default, ""}, :string}, 4 => {:from_unix_ts, {:default, 0}, :int32}, 5 => {:until_unix_ts, {:default, 0}, :int32}}
+      %{1 => {:task_operation, {:default, :ADD}, {:enum, Assignment2021.Messages.TodoTask.TodoTaskOperation}}, 2 => {:task_uuid, {:default, ""}, :string}, 3 => {:currency_pair, {:default, ""}, :string}, 4 => {:from_unix_ts, {:default, 0}, :int32}, 5 => {:until_unix_ts, {:default, 0}, :int32}}
     end
     @spec(defs_by_name() :: %{required(atom) => {non_neg_integer, Protox.Types.kind(), Protox.Types.type()}})
     def(defs_by_name()) do
-      %{currency_pair: {3, {:default, ""}, :string}, from_unix_ts: {4, {:default, 0}, :int32}, task_operation: {1, {:default, :ADD}, {:enum, Opdracht2021.Messages.TodoTask.TodoTaskOperation}}, task_uuid: {2, {:default, ""}, :string}, until_unix_ts: {5, {:default, 0}, :int32}}
+      %{currency_pair: {3, {:default, ""}, :string}, from_unix_ts: {4, {:default, 0}, :int32}, task_operation: {1, {:default, :ADD}, {:enum, Assignment2021.Messages.TodoTask.TodoTaskOperation}}, task_uuid: {2, {:default, ""}, :string}, until_unix_ts: {5, {:default, 0}, :int32}}
     end
     @spec(required_fields() :: [])
     def(required_fields()) do
