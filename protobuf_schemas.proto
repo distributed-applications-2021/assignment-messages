@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package opdracht2021.messages;
+
+message TodoTask {
+    enum TodoTaskOperation {
+        ADD = 0;
+        DELETE = 1;
+    }
+    TodoTaskOperation task_operation = 1;
+    string task_uuid = 2;
+    string currency_pair = 3;
+    int32 from_unix_ts = 4;
+    int32 until_unix_ts = 5;
+}
