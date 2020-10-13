@@ -1,9 +1,9 @@
-defmodule Assignment2021Messages.MixProject do
+defmodule AssignmentMessages.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :assignment2021_messages,
+      app: :assignment_messages,
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,

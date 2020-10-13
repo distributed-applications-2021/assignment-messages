@@ -1,4 +1,4 @@
-# Assignment2021Messages
+# AssignmentMessages
 
 ## Installation
 
