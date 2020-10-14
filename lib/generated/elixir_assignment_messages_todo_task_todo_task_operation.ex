@@ -1,5 +1,5 @@
 # credo:disable-for-this-file
-defmodule(Assignment.Messages.TodoTask.TodoTaskOperation) do
+defmodule(AssignmentMessages.TodoTask.TodoTaskOperation) do
   @moduledoc(false)
   (
     (

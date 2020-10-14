@@ -1,8 +1,8 @@
 # credo:disable-for-this-file
-defmodule(AssignmentMessages.TodoTask) do
+defmodule(AssignmentMessages.TodoChunk) do
   @moduledoc(false)
   (
-    defstruct(task_operation: :ADD, task_uuid: "", currency_pair: "", from_unix_ts: 0, until_unix_ts: 0, __uf__: [])
+    defstruct(currency_pair: "", from_unix_ts: 0, until_unix_ts: 0, task_dbid: 0, __uf__: [])
     (
       @spec(encode(struct) :: {:ok, iodata} | {:error, any})
       def(encode(msg)) do
@@ -15,43 +15,36 @@ defmodule(AssignmentMessages.TodoTask) do
       end
       @spec(encode!(struct) :: iodata | no_return)
       def(encode!(msg)) do
-        [] |> encode_task_operation(msg) |> encode_task_uuid(msg) |> encode_currency_pair(msg) |> encode_from_unix_ts(msg) |> encode_until_unix_ts(msg) |> encode_unknown_fields(msg)
+        [] |> encode_currency_pair(msg) |> encode_from_unix_ts(msg) |> encode_until_unix_ts(msg) |> encode_task_dbid(msg) |> encode_unknown_fields(msg)
       end
       []
-      [defp(encode_task_operation(acc, msg)) do
-        field_value = msg.task_operation()
-        if(field_value == :ADD) do
-          acc
-        else
-          [acc, "\b", field_value |> AssignmentMessages.TodoTask.TodoTaskOperation.encode() |> Protox.Encode.encode_enum()]
-        end
-      end, defp(encode_task_uuid(acc, msg)) do
-        field_value = msg.task_uuid()
-        if(field_value == "") do
-          acc
-        else
-          [acc, <<18>>, Protox.Encode.encode_string(field_value)]
-        end
-      end, defp(encode_currency_pair(acc, msg)) do
+      [defp(encode_currency_pair(acc, msg)) do
         field_value = msg.currency_pair()
         if(field_value == "") do
           acc
         else
-          [acc, <<26>>, Protox.Encode.encode_string(field_value)]
+          [acc, "\n", Protox.Encode.encode_string(field_value)]
         end
       end, defp(encode_from_unix_ts(acc, msg)) do
         field_value = msg.from_unix_ts()
         if(field_value == 0) do
           acc
         else
-          [acc, " ", Protox.Encode.encode_int32(field_value)]
+          [acc, <<16>>, Protox.Encode.encode_int32(field_value)]
         end
       end, defp(encode_until_unix_ts(acc, msg)) do
         field_value = msg.until_unix_ts()
         if(field_value == 0) do
           acc
         else
-          [acc, "(", Protox.Encode.encode_int32(field_value)]
+          [acc, <<24>>, Protox.Encode.encode_int32(field_value)]
+        end
+      end, defp(encode_task_dbid(acc, msg)) do
+        field_value = msg.task_dbid()
+        if(field_value == 0) do
+          acc
+        else
+          [acc, " ", Protox.Encode.encode_int32(field_value)]
         end
       end]
       defp(encode_unknown_fields(acc, msg)) do
@@ -81,7 +74,7 @@ defmodule(AssignmentMessages.TodoTask) do
       (
         @spec(decode!(binary) :: struct | no_return)
         def(decode!(bytes)) do
-          parse_key_value(bytes, struct(AssignmentMessages.TodoTask))
+          parse_key_value(bytes, struct(AssignmentMessages.TodoChunk))
         end
       )
       (
@@ -94,28 +87,22 @@ defmodule(AssignmentMessages.TodoTask) do
             {0, _, _} ->
               raise(%Protox.IllegalTagError{})
             {1, _, bytes} ->
-              {value, rest} = Protox.Decode.parse_enum(bytes, AssignmentMessages.TodoTask.TodoTaskOperation)
-              field = {:task_operation, value}
-              {field, rest}
-            {2, _, bytes} ->
-              {len, bytes} = Protox.Varint.decode(bytes)
-              <<delimited::binary-size(len), rest::binary>> = bytes
-              value = delimited
-              field = {:task_uuid, value}
-              {field, rest}
-            {3, _, bytes} ->
               {len, bytes} = Protox.Varint.decode(bytes)
               <<delimited::binary-size(len), rest::binary>> = bytes
               value = delimited
               field = {:currency_pair, value}
               {field, rest}
-            {4, _, bytes} ->
+            {2, _, bytes} ->
               {value, rest} = Protox.Decode.parse_int32(bytes)
               field = {:from_unix_ts, value}
               {field, rest}
-            {5, _, bytes} ->
+            {3, _, bytes} ->
               {value, rest} = Protox.Decode.parse_int32(bytes)
               field = {:until_unix_ts, value}
+              {field, rest}
+            {4, _, bytes} ->
+              {value, rest} = Protox.Decode.parse_int32(bytes)
+              field = {:task_dbid, value}
               {field, rest}
             {tag, wire_type, rest} ->
               {value, new_rest} = Protox.Decode.parse_unknown(tag, wire_type, rest)
@@ -130,11 +117,11 @@ defmodule(AssignmentMessages.TodoTask) do
     )
     @spec(defs() :: %{required(non_neg_integer) => {atom, Protox.Types.kind(), Protox.Types.type()}})
     def(defs()) do
-      %{1 => {:task_operation, {:default, :ADD}, {:enum, AssignmentMessages.TodoTask.TodoTaskOperation}}, 2 => {:task_uuid, {:default, ""}, :string}, 3 => {:currency_pair, {:default, ""}, :string}, 4 => {:from_unix_ts, {:default, 0}, :int32}, 5 => {:until_unix_ts, {:default, 0}, :int32}}
+      %{1 => {:currency_pair, {:default, ""}, :string}, 2 => {:from_unix_ts, {:default, 0}, :int32}, 3 => {:until_unix_ts, {:default, 0}, :int32}, 4 => {:task_dbid, {:default, 0}, :int32}}
     end
     @spec(defs_by_name() :: %{required(atom) => {non_neg_integer, Protox.Types.kind(), Protox.Types.type()}})
     def(defs_by_name()) do
-      %{currency_pair: {3, {:default, ""}, :string}, from_unix_ts: {4, {:default, 0}, :int32}, task_operation: {1, {:default, :ADD}, {:enum, AssignmentMessages.TodoTask.TodoTaskOperation}}, task_uuid: {2, {:default, ""}, :string}, until_unix_ts: {5, {:default, 0}, :int32}}
+      %{currency_pair: {1, {:default, ""}, :string}, from_unix_ts: {2, {:default, 0}, :int32}, task_dbid: {4, {:default, 0}, :int32}, until_unix_ts: {3, {:default, 0}, :int32}}
     end
     @spec(required_fields() :: [])
     def(required_fields()) do
@@ -156,15 +143,13 @@ defmodule(AssignmentMessages.TodoTask) do
     def(syntax()) do
       :proto3
     end
-    [@spec(default(atom) :: {:ok, boolean | integer | String.t() | float} | {:error, atom}), [def(default(:task_operation)) do
-      {:ok, :ADD}
-    end, def(default(:task_uuid)) do
-      {:ok, ""}
-    end, def(default(:currency_pair)) do
+    [@spec(default(atom) :: {:ok, boolean | integer | String.t() | float} | {:error, atom}), [def(default(:currency_pair)) do
       {:ok, ""}
     end, def(default(:from_unix_ts)) do
       {:ok, 0}
     end, def(default(:until_unix_ts)) do
+      {:ok, 0}
+    end, def(default(:task_dbid)) do
       {:ok, 0}
     end], def(default(_)) do
       {:error, :no_such_field}
