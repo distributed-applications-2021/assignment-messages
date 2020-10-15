@@ -14,6 +14,16 @@ message TodoTask {
     int32 until_unix_ts = 5;
 }
 
+message TaskResponse {
+    enum Result {
+        COMPLETE = 0;
+        TASK_CONFLICT = 1;
+        CANCELLED = 2;
+    }
+    Result task_result = 1;
+    TodoTask task = 2;
+}
+
 message TodoChunk {
     string currency_pair = 1;
     int32 from_unix_ts = 2;
