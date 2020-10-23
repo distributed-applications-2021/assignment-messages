@@ -45,6 +45,13 @@ message ClonedEntry {
 }
 
 message ClonedChunk {
-    TodoChunk original_todo_chunk = 1;
-    repeated ClonedEntry entries = 2;
+    enum Result {
+        COMPLETE = 0;
+        WINDOW_TOO_BIG = 1;
+        RANDOM_ERROR = 2;
+    }
+    Result chunk_result = 1;
+    TodoChunk original_todo_chunk = 2;
+    repeated ClonedEntry entries = 3;
+    string possible_error_message = 4;
 }
