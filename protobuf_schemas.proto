@@ -21,7 +21,7 @@ message TaskResponse {
         CANCELLED = 2;
     }
     Result task_result = 1;
-    TodoTask task = 2;
+    string todo_task_uuid = 2;
 }
 
 message TodoChunk {
