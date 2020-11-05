@@ -37,3 +37,36 @@ iex> AssignmentMessages.TodoTask.decode! binary_data
 ### Decode details
 
 Look at [https://github.com/ahamez/protox#decode](https://github.com/ahamez/protox#decode)
+
+## Messages made for you
+
+We've defined the following messages:
+
+```elixir
+iex> %AssignmentMessages. # press [TAB]
+ClonedChunk          ClonedEntry          MixProject
+TaskResponse         TodoChunk            TodoTask
+encode_message!/1    encode_message/1
+# You can see that the following messages are available:
+# ClonedChunk, ClonedEntry, TaskResponse, TodoChunk, TodoTask
+
+# You could look at either the protobuf schema or execute the following:
+iex> AssignmentMessages.ClonedChunk.defs_by_name()
+%{
+  chunk_result: {1, {:default, :COMPLETE},
+   {:enum, AssignmentMessages.ClonedChunk.Result}},
+  entries: {3, :unpacked, {:message, AssignmentMessages.ClonedEntry}},
+  original_todo_chunk: {2, {:default, nil},
+   {:message, AssignmentMessages.TodoChunk}},
+  possible_error_message: {4, {:default, ""}, :string}
+}
+# while it contains a lot of stuff, you can see that:
+# chunk_result needs to be and enum of the AssignmentMessages.ClonedChunk.Result struct.
+# entries isn't that intuitive, but it's a list of messages of the AssignmentMessages.ClonedEntry struct.
+# original_todo_chunk, which is by default nil, requires a AssignmentMessages.TodoChunk struct
+# possible_error_message is just a string
+```
+
+I'd suggest looking at the protobuf schema to understand the fields instead of the above output, but that's up to you.
+
+_Note: error messages are only shown when encoding te message. The normal (not bang) version produces more meaningful error messages (most of the time). If that isn't clear, try the bang version. __Read the error mesage!___
